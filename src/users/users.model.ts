@@ -1,4 +1,6 @@
 import { Model, Table, Column, DataType, HasOne, ForeignKey, BelongsTo, HasMany} from "sequelize-typescript";
+import { Task } from "src/tasks/tasks.model";
+import { TaskToDepartment } from "src/tasks/tasksToDepartments.model";
 import { TaskToUser } from "src/tasks/tasksToUsers.model";
 import { Password } from "./pass.model";
 
@@ -48,7 +50,12 @@ export class User extends Model<User, UserCreationInterface>
     @HasMany(()=>TaskToUser)
     TaskToUserID: TaskToUser
     
+    @HasMany(()=>Task)
+    TaskID: Task
 
+    @HasMany(()=>TaskToDepartment)
+    TaskToDepartmentID: TaskToDepartment
+    
     /*@BelongsTo(()=>Password)
     Password: Password;*/
 

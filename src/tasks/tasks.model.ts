@@ -1,4 +1,5 @@
 import { Model, Table, Column, DataType, HasOne, ForeignKey, BelongsTo} from "sequelize-typescript";
+import { User } from "src/users/users.model";
 
 
 interface TaskCreationInterface
@@ -36,4 +37,11 @@ export class Task extends Model<Task, TaskCreationInterface>
 
     @Column({type: DataType.TIME, allowNull: true, defaultValue: null})
     IsRequirementsComplited: boolean
+
+    @ForeignKey(()=>User)
+    @Column({type: DataType.INTEGER})
+    ProducerID: number
+
+    @BelongsTo(()=>User)
+    Producer: User
 }

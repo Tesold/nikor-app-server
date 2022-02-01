@@ -7,6 +7,12 @@ import { UsersModule } from './users/users.module';
 import { TasksModule } from './tasks/tasks.module';
 import { TaskToUser } from "./tasks/tasksToUsers.model";
 import { Task } from "./tasks/tasks.model";
+import { PositionsModule } from './positions/positions.module';
+import { TaskToDepartment } from "./tasks/tasksToDepartments.model";
+import { Position } from "./positions/positions.model";
+import { PositionName } from "./positions/positionsName.model";
+import { Department } from "./positions/department.model";
+import { Scoupe } from "./positions/scoupes.model";
 
 @Module(
     {
@@ -25,13 +31,14 @@ import { Task } from "./tasks/tasks.model";
               username: process.env.POSTGRES_NAME,
               password: process.env.POSTGRES_PASS,
               database: process.env.POSTGRES_DB,
-              models: [User, Password, Task, TaskToUser],
+              models: [User, Password, Task, TaskToUser, TaskToDepartment, Position, PositionName, Department, Scoupe],
               autoLoadModels: true,
               synchronize: true,
               sync: { force: true }
             }),
             UsersModule,
             TasksModule,
+            PositionsModule,
           ],
     }
 )
