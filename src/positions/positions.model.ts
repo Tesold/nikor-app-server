@@ -1,6 +1,7 @@
-import { Model, Table, Column, DataType, ForeignKey, BelongsTo} from "sequelize-typescript";
+import { Model, Table, Column, DataType, ForeignKey, BelongsTo, HasMany} from "sequelize-typescript";
 import { PositionName } from "src/positions/positionsName.model";
 import { User } from "../users/users.model";
+import { Subordinate } from "./subordinates.model";
 
 @Table({tableName: 'Positions'})
 export class Position extends Model<Position>

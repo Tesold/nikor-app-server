@@ -7,6 +7,7 @@ interface TaskToPositionCreationInterface
 {
     PositionID: number
     TaskID: number
+    ProducerID: number
 }
 
 @Table({tableName: 'TasksToPositions'})

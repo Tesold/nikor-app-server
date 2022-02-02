@@ -13,6 +13,10 @@ import { Position } from "./positions/positions.model";
 import { PositionName } from "./positions/positionsName.model";
 import { Department } from "./positions/department.model";
 import { Scoupe } from "./positions/scoupes.model";
+import { PermissionsModule } from './permissions/permissions.module';
+import { Permission } from "./permissions/permissions.model";
+import { TaskToPosition } from "./tasks/tasksToPositions.model";
+import { Subordinate } from "./positions/subordinates.model";
 
 @Module(
     {
@@ -31,7 +35,7 @@ import { Scoupe } from "./positions/scoupes.model";
               username: process.env.POSTGRES_NAME,
               password: process.env.POSTGRES_PASS,
               database: process.env.POSTGRES_DB,
-              models: [User, Password, Task, TaskToUser, TaskToDepartment, Position, PositionName, Department, Scoupe],
+              models: [User, Password, Task, TaskToUser, TaskToDepartment, Position, PositionName, Department, Scoupe, Permission, TaskToPosition, Subordinate],
               autoLoadModels: true,
               synchronize: true,
               sync: { force: true }
@@ -39,6 +43,7 @@ import { Scoupe } from "./positions/scoupes.model";
             UsersModule,
             TasksModule,
             PositionsModule,
+            PermissionsModule,
           ],
     }
 )

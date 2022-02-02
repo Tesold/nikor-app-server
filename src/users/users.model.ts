@@ -1,4 +1,5 @@
 import { Model, Table, Column, DataType, HasOne, ForeignKey, BelongsTo, HasMany} from "sequelize-typescript";
+import { Permission } from "src/permissions/permissions.model";
 import { Task } from "src/tasks/tasks.model";
 import { TaskToDepartment } from "src/tasks/tasksToDepartments.model";
 import { TaskToUser } from "src/tasks/tasksToUsers.model";
@@ -56,14 +57,13 @@ export class User extends Model<User, UserCreationInterface>
     @HasMany(()=>TaskToDepartment)
     TaskToDepartmentID: TaskToDepartment
     
-    /*@BelongsTo(()=>Password)
-    Password: Password;*/
-
-    /*@ForeignKey(()=>User)
-    @Column({type: DataType.INTEGER})
-    AddedBy: Number;
+    @BelongsTo(()=>Password)
+    Password: Password;
 
     @ForeignKey(()=>Permission)
     @Column({type: DataType.INTEGER})
-    PermissionID: Number;*/
+    PermissionID: Number;
+
+    @BelongsTo(()=>Permission)
+    Permission:Permission
 }
