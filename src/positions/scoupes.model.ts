@@ -16,5 +16,5 @@ export class Scoupe extends Model<Scoupe, ScoupeCreationInterface>
     ScoupeName: string;
 
     @HasMany(()=>Department, {onDelete: "cascade"})
-    DepartmentID:Department;
+    DepartmentID:Department[];
 }

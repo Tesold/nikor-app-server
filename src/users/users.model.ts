@@ -1,5 +1,8 @@
-import { Model, Table, Column, DataType, HasOne, ForeignKey, BelongsTo, HasMany} from "sequelize-typescript";
+import { Model, Table, Column, DataType, HasOne,
+     ForeignKey, BelongsTo, HasMany, BelongsToMany} from "sequelize-typescript";
 import { Permission } from "src/permissions/permissions.model";
+import { UserPermissions } from "src/permissions/UsersPermissions";
+import { Position } from "src/positions/positions.model";
 import { Task } from "src/tasks/tasks.model";
 import { TaskToDepartment } from "src/tasks/tasksToDepartments.model";
 import { TaskToUser } from "src/tasks/tasksToUsers.model";
@@ -26,13 +29,13 @@ export class User extends Model<User, UserCreationInterface>
     @Column({type: DataType.TEXT, unique: true, allowNull: false})
     Nickname: string;
 
-    @Column({type: DataType.INTEGER, allowNull: false})
+    @Column({type: DataType.TEXT, allowNull: false})
     FirstName: string;
 
-    @Column({type: DataType.INTEGER, allowNull: false})
+    @Column({type: DataType.TEXT, allowNull: false})
     LastName: string;
 
-    @Column({type: DataType.INTEGER, allowNull: true, defaultValue: null})
+    @Column({type: DataType.TEXT, allowNull: true, defaultValue: null})
     MiddleName: string;
 
     @Column({type: DataType.DATE, allowNull: false})
@@ -41,7 +44,7 @@ export class User extends Model<User, UserCreationInterface>
     @Column({type: DataType.INTEGER})
     Timezone: number;
 
-    @Column({type: DataType.TEXT, allowNull: false})
+    @Column({type: DataType.TEXT, unique: true, allowNull: false})
     Email: string;
 
     @ForeignKey(()=>Password)
@@ -60,10 +63,13 @@ export class User extends Model<User, UserCreationInterface>
     @BelongsTo(()=>Password)
     Password: Password;
 
-    @ForeignKey(()=>Permission)
+    /*@ForeignKey(()=>Permission)
     @Column({type: DataType.INTEGER})
-    PermissionID: Number;
+    PermissionID: Number;*/
 
-    @BelongsTo(()=>Permission)
-    Permission:Permission
+    @BelongsToMany(()=>Permission, ()=>UserPermissions)
+    PermissionID:Permission[]
+
+    @HasOne(()=>Position)
+    Position: Position
 }

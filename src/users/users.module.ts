@@ -1,7 +1,12 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { Task } from 'src/tasks/tasks.model';
-import { TaskToUser } from 'src/tasks/tasksToUsers.model';
+import { ApiModule } from 'src/api/api.module';
+import { AppModule } from 'src/app.module';
+import { AuthModule } from 'src/auth/auth.module';
+import { PermissionsModule } from 'src/permissions/permissions.module';
+import { PermissionsService } from 'src/permissions/permissions.service';
+import { UserPermissions } from 'src/permissions/UsersPermissions';
+import { BlackList } from './black-list.model';
 import { Password } from './pass.model';
 import { UsersController } from './users.controller';
 import { User } from './users.model';
@@ -11,7 +16,14 @@ import { UsersService } from './users.service';
   controllers: [UsersController],
   providers: [UsersService],
   imports: [
-    SequelizeModule.forFeature([User, Password])
+    SequelizeModule.forFeature([User, Password, UserPermissions, BlackList]),
+    PermissionsModule,
+    forwardRef(()=>AuthModule),
+    forwardRef(()=>ApiModule)
+  ],
+  exports: [
+    UsersService,
+    
   ]
 })
 export class UsersModule {}

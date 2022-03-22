@@ -1,4 +1,4 @@
-import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
+import { BelongsTo, Column, DataType, ForeignKey, HasMany, HasOne, Model, Table } from "sequelize-typescript";
 import { Position } from "src/positions/positions.model";
 import { Department } from "./department.model";
 import { Scoupe } from "./scoupes.model";
@@ -18,7 +18,7 @@ export class PositionName extends Model<PositionName, PositionNameCreationInterf
     PositionName: string;
 
     @ForeignKey(()=>Department)
-    @Column({type: DataType.INTEGER, allowNull: true})
+    @Column({type: DataType.INTEGER, allowNull: false})
     DepartmentID: number;
 
     @BelongsTo(()=>Department)
