@@ -1,6 +1,6 @@
 import { Model, Table, Column, DataType, ForeignKey, BelongsTo} from "sequelize-typescript";
-import { Position } from "src/positions/positions.model";
-import { User } from "src/users/users.model";
+import { Position } from "src/models/positions/positions.model";
+import { User } from "src/models/users/users.model";
 import { Task } from "./tasks.model";
 
 interface TaskToPositionCreationInterface

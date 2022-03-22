@@ -1,6 +1,6 @@
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from 'src/models/users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/users/users.model';
+import { User } from 'src/models/users/users.model';
 import { CACHE_MANAGER, Inject, Injectable, UnauthorizedException, } from '@nestjs/common';
 import { Cache , } from 'cache-manager';
 

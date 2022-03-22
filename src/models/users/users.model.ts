@@ -1,11 +1,11 @@
 import { Model, Table, Column, DataType, HasOne,
      ForeignKey, BelongsTo, HasMany, BelongsToMany} from "sequelize-typescript";
-import { Permission } from "src/permissions/permissions.model";
-import { UserPermissions } from "src/permissions/UsersPermissions";
-import { Position } from "src/positions/positions.model";
-import { Task } from "src/tasks/tasks.model";
-import { TaskToDepartment } from "src/tasks/tasksToDepartments.model";
-import { TaskToUser } from "src/tasks/tasksToUsers.model";
+import { Permission } from "src/models/permissions/permissions.model";
+import { UserPermissions } from "src/models/permissions/UsersPermissions";
+import { Position } from "src/models/positions/positions.model";
+import { Task } from "src/models/tasks/tasks.model";
+import { TaskToDepartment } from "src/models/tasks/tasksToDepartments.model";
+import { TaskToUser } from "src/models/tasks/tasksToUsers.model";
 import { Password } from "./pass.model";
 
 

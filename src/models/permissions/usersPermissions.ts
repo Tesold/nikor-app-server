@@ -1,5 +1,5 @@
 import { Model, Column, DataType, HasMany, Table, ForeignKey } from "sequelize-typescript";
-import { User } from "src/users/users.model";
+import { User } from "src/models/users/users.model";
 import { Permission } from "./permissions.model";
 
 @Table({tableName: 'UsersPermissions'})

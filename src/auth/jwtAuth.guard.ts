@@ -1,7 +1,7 @@
 import { CACHE_MANAGER, ExecutionContext, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
-import { PermissionsService } from 'src/permissions/permissions.service';
+import { PermissionsService } from 'src/models/permissions/permissions.service';
 import { ROLES_KEY } from './roles.decorator';
 import { Cache , } from 'cache-manager';
 import { JwtService } from '@nestjs/jwt';

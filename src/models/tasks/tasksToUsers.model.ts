@@ -1,5 +1,5 @@
 import { Model, Table, Column, DataType, HasOne, ForeignKey, BelongsTo} from "sequelize-typescript";
-import { User } from "src/users/users.model";
+import { User } from "src/models/users/users.model";
 import { Task } from "./tasks.model";
 
 

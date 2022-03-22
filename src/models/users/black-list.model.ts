@@ -1,5 +1,5 @@
 import { Model, Column, DataType, HasMany, Table, ForeignKey, HasOne, BelongsToMany, BelongsTo} from "sequelize-typescript";
-import { User } from "src/users/users.model";
+import { User } from "src/models/users/users.model";
 
 @Table({tableName: 'BlackList'})
 export class BlackList extends Model<BlackList>

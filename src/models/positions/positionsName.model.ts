@@ -1,5 +1,5 @@
 import { BelongsTo, Column, DataType, ForeignKey, HasMany, HasOne, Model, Table } from "sequelize-typescript";
-import { Position } from "src/positions/positions.model";
+import { Position } from "src/models/positions/positions.model";
 import { Department } from "./department.model";
 import { Scoupe } from "./scoupes.model";
 

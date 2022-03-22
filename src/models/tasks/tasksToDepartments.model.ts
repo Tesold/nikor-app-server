@@ -1,6 +1,6 @@
 import { Model, Table, Column, DataType, ForeignKey, BelongsTo} from "sequelize-typescript";
-import { Department } from "src/positions/department.model";
-import { User } from "src/users/users.model";
+import { Department } from "src/models/positions/department.model";
+import { User } from "src/models/users/users.model";
 import { Task } from "./tasks.model";
 
 interface TaskToDepartmentCreationInterface

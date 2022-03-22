@@ -4,7 +4,7 @@ import { AuthModuleOptions } from '@nestjs/passport';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { AuthModule } from 'src/auth/auth.module';
 import { jwtConstants } from 'src/auth/constants';
-import { UsersModule } from 'src/users/users.module';
+import { UsersModule } from 'src/models/users/users.module';
 import { Department } from './department.model';
 import { PositionsController } from './positions.controller';
 import { Position } from './positions.model';

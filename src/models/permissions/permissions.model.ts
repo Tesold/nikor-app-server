@@ -1,5 +1,5 @@
 import { Model, Column, DataType, HasMany, Table, BelongsToMany } from "sequelize-typescript";
-import { User } from "src/users/users.model";
+import { User } from "src/models/users/users.model";
 import { text } from "stream/consumers";
 import { UserPermissions } from "./UsersPermissions";
 

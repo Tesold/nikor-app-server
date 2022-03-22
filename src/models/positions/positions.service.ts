@@ -1,11 +1,11 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Scopes } from 'sequelize-typescript';
-import { CreatePermissionDto } from 'src/permissions/dto/create-permission.dto';
-import { PermissionsService } from 'src/permissions/permissions.service';
-import { CreatePasswordDto } from 'src/users/dto/create-password.dto';
-import { Password } from 'src/users/pass.model';
-import { User } from 'src/users/users.model';
+import { CreatePermissionDto } from 'src/models/permissions/dto/create-permission.dto';
+import { PermissionsService } from 'src/models/permissions/permissions.service';
+import { CreatePasswordDto } from 'src/models/users/dto/create-password.dto';
+import { Password } from 'src/models/users/pass.model';
+import { User } from 'src/models/users/users.model';
 import { Department } from './department.model';
 import { CreateDepartmentDto } from './dto/CreateDepartment.dto';
 import { CreatePositionDto } from './dto/CreatePosition.dto';

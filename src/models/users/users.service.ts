@@ -1,16 +1,16 @@
 import { BadRequestException, ConsoleLogger, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { PermissionsService } from 'src/permissions/permissions.service';
+import { PermissionsService } from 'src/models/permissions/permissions.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './users.model';
 import * as bcrypt from 'bcrypt'
 import { Password } from './pass.model';
 import { CreatePasswordDto } from './dto/create-password.dto';
-import { Permission } from 'src/permissions/permissions.model';
+import { Permission } from 'src/models/permissions/permissions.model';
 import { BadPassword } from 'src/errors/errors';
 import { Op } from 'sequelize';
-import { PositionName } from 'src/positions/positionsName.model';
-import { Department } from 'src/positions/department.model';
+import { PositionName } from 'src/models/positions/positionsName.model';
+import { Department } from 'src/models/positions/department.model';
 
 @Injectable()
 export class UsersService 

@@ -1,25 +1,25 @@
 import {CacheModule, Module} from "@nestjs/common"
 import { ConfigModule } from "@nestjs/config";
 import { SequelizeModule } from "@nestjs/sequelize";
-import { Password } from "./users/pass.model";
-import { User } from "./users/users.model";
-import { UsersModule } from './users/users.module';
-import { TasksModule } from './tasks/tasks.module';
-import { TaskToUser } from "./tasks/tasksToUsers.model";
-import { Task } from "./tasks/tasks.model";
-import { PositionsModule } from './positions/positions.module';
-import { TaskToDepartment } from "./tasks/tasksToDepartments.model";
-import { Position } from "./positions/positions.model";
-import { PositionName } from "./positions/positionsName.model";
-import { Department } from "./positions/department.model";
-import { Scoupe } from "./positions/scoupes.model";
-import { PermissionsModule } from './permissions/permissions.module';
-import { Permission } from "./permissions/permissions.model";
-import { TaskToPosition } from "./tasks/tasksToPositions.model";
-import { Subordinate } from "./positions/subordinates.model";
+import { Password } from "./models/users/pass.model";
+import { User } from "./models/users/users.model";
+import { UsersModule } from './models/users/users.module';
+import { TasksModule } from './models/tasks/tasks.module';
+import { TaskToUser } from "./models/tasks/tasksToUsers.model";
+import { Task } from "./models/tasks/tasks.model";
+import { PositionsModule } from './models/positions/positions.module';
+import { TaskToDepartment } from "./models/tasks/tasksToDepartments.model";
+import { Position } from "./models/positions/positions.model";
+import { PositionName } from "./models/positions/positionsName.model";
+import { Department } from "./models/positions/department.model";
+import { Scoupe } from "./models/positions/scoupes.model";
+import { PermissionsModule } from './models/permissions/permissions.module';
+import { Permission } from "./models/permissions/permissions.model";
+import { TaskToPosition } from "./models/tasks/tasksToPositions.model";
+import { Subordinate } from "./models/positions/subordinates.model";
 import { AuthModule } from './auth/auth.module';
-import { UserPermissions } from "./permissions/UsersPermissions";
-import { BlackList } from "./users/black-list.model";
+import { UserPermissions } from "./models/permissions/UsersPermissions";
+import { BlackList } from "./models/users/black-list.model";
 import { ApiModule } from './api/api.module';
 
 @Module(
