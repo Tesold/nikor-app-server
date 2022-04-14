@@ -20,6 +20,16 @@ env
 .env
 *.env
 
+/.development
+development
+.development
+*.development
+
+/.development.env
+development.env
+.development.env
+*.development.env
+
 # Tests
 /coverage
 /.nyc_output
