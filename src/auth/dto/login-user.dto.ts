@@ -1,7 +1,5 @@
-export class LoginUserDto{
-
-    readonly PassHash: string;
-    readonly Nickname: string;
-    readonly RefreshToken: string;
-
+export class LoginUserDto {
+  readonly PassHash: string;
+  readonly Nickname: string;
+  readonly RefreshToken: string;
 }

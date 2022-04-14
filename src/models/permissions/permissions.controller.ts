@@ -4,20 +4,15 @@ import { PermissionsService } from './permissions.service';
 
 @Controller('permissions')
 export class PermissionsController {
-    constructor (private permissionService: PermissionsService)
-    {
-       
-    }
+  constructor(private permissionService: PermissionsService) {}
 
-    @Post()
-    create(@Body() dto: CreatePermissionDto)
-    {
-        return this.permissionService.createPermission(dto);
-    }
+  @Post()
+  create(@Body() dto: CreatePermissionDto) {
+    return this.permissionService.createPermission(dto);
+  }
 
-    @Get('/:value')
-    getPermissionByName(@Param('value') name : string)
-    {
-        return this.permissionService.getPermissionByName(name);
-    }
+  @Get('/:value')
+  getPermissionByName(@Param('value') name: string) {
+    return this.permissionService.getPermissionByName(name);
+  }
 }

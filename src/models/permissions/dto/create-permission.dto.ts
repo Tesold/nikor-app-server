@@ -1,8 +1,7 @@
-export class CreatePermissionDto
-{
-    readonly name: string;
-    readonly Config: JSON;
-    readonly jss:JSON
+export class CreatePermissionDto {
+  readonly name: string;
+  readonly Config: JSON;
+  readonly jss: JSON;
 }
 /*export class CreatePermissionDto
 {

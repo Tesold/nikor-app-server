@@ -1,3 +1,3 @@
 export function BadPassword() {
-    return "Этот пароль не безопасен!"
+  return 'Этот пароль не безопасен!';
 }

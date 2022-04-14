@@ -4,17 +4,22 @@ import { JwtService } from '@nestjs/jwt';
 import { PermissionsService } from 'src/models/permissions/permissions.service';
 import { ROLES_KEY } from './roles.decorator';
 
-
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private reflector: Reflector, private permissionService: PermissionsService, private jwtService: JwtService) {}
+  constructor(
+    private reflector: Reflector,
+    private permissionService: PermissionsService,
+    private jwtService: JwtService,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const requiredRoles = this.reflector.getAllAndOverride<Object[]>(ROLES_KEY, [
-      context.getHandler(),
-      context.getClass(),
-    ]);
-    if (!requiredRoles) {
+    const requiredRole = this.reflector.getAllAndOverride<Object>(
+      ROLES_KEY,
+      [context.getHandler(), context.getClass()],
+    );
+    
+    console.log("RolesGuard");
+    if (!requiredRole) {
       return true;
     }
     const req = context.switchToHttp().getRequest();
@@ -22,22 +27,12 @@ export class RolesGuard implements CanActivate {
     const header = req.headers.authorization;
     const token = header.split(' ')[1];
     const user = this.jwtService.verify(token);
-    const Configs = [];
-    const parsedConfig = [];
+    const Config = JSON.parse(JSON.stringify((await this.permissionService.getPermissionByName(user.Permission.Name)).Config));
 
-      for(const element of user.Permissions)
-      {
-        Configs.push((await this.permissionService.getPermissionByName(element)).Config)
-      }
-
-    Configs.forEach(element =>{
-      Object.entries(element).forEach(([key, value])=>{
-          const O = new Object();
-          O[key]=value;
-          parsedConfig.push(JSON.stringify(O));
-      }
-      )});
     
-    return parsedConfig.some((role:string) => JSON.stringify(requiredRoles).includes(role));
+
+
+    return Config.some(element=>element===requiredRole);
+
   }
 }

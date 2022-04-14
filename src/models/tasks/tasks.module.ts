@@ -11,7 +11,12 @@ import { TaskToUser } from './tasksToUsers.model';
   controllers: [TasksController],
   providers: [TasksService],
   imports: [
-    SequelizeModule.forFeature([Task, TaskToUser, TaskToDepartment, TaskToPosition])
-  ]
+    SequelizeModule.forFeature([
+      Task,
+      TaskToUser,
+      TaskToDepartment,
+      TaskToPosition,
+    ]),
+  ],
 })
 export class TasksModule {}

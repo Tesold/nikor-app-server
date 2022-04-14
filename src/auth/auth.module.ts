@@ -12,21 +12,18 @@ import { LocalStrategy } from './local.strategy';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, AuthModuleOptions, ],
-  exports:[AuthService],
-  imports:
-  [
+  providers: [AuthService, LocalStrategy, JwtStrategy, AuthModuleOptions],
+  exports: [AuthService],
+  imports: [
     CacheModule.register(),
-    forwardRef(()=>UsersModule),
-    forwardRef(()=>ApiModule),
+    forwardRef(() => UsersModule),
+    forwardRef(() => ApiModule),
     PermissionsModule,
     PassportModule,
-    JwtModule.register(
-      {
-          secret: jwtConstants.secret,
-          signOptions: { expiresIn: '120s'}  
-      }
-    ),
-  ]
+    JwtModule.register({
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '300s' },
+    }),
+  ],
 })
 export class AuthModule {}

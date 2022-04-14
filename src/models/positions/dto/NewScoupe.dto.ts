@@ -1,6 +1,6 @@
-import { Scoupe } from "../scoupes.model";
-import { NewDepartment } from "./NewDepartment.dto";
+import { Scoupe } from '../scoupes.model';
+import { NewDepartment } from './NewDepartment.dto';
 
-export class NewScoupe extends Scoupe{
-     DepartmentID:NewDepartment[]
+export class NewScoupe extends Scoupe {
+  DepartmentID: NewDepartment[];
 }

@@ -11,21 +11,18 @@ import { ApiService } from './api.service';
 
 @Module({
   controllers: [ApiController],
-  providers: [ApiService, AuthModuleOptions, ],
-  exports:[ApiService],
-  imports:
-  [
+  providers: [ApiService, AuthModuleOptions],
+  exports: [ApiService],
+  imports: [
     CacheModule.register(),
-    forwardRef(()=>UsersModule),
-    forwardRef(()=>AuthModule),
+    forwardRef(() => UsersModule),
+    forwardRef(() => AuthModule),
     //PermissionsModule,
     //PassportModule,
-    JwtModule.register(
-      {
-          secret: jwtConstants.secret,
-          signOptions: { expiresIn: '60s'}  
-      }
-    ),
-  ]
+    JwtModule.register({
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '60s' },
+    }),
+  ],
 })
 export class ApiModule {}

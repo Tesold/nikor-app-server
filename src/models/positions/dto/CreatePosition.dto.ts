@@ -1,4 +1,4 @@
-export class CreatePositionDto{
-    readonly Code: string;
-    readonly PositionNameID: number;
+export class CreatePositionDto {
+  readonly Code: string;
+  readonly PositionNameID: number;
 }

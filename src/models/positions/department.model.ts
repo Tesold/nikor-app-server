@@ -1,28 +1,40 @@
-import { Model, Table, Column, DataType, ForeignKey, BelongsTo, HasMany, HasOne} from "sequelize-typescript";
-import { PositionName } from "./positionsName.model";
-import { Scoupe } from "./scoupes.model";
+import {
+  Model,
+  Table,
+  Column,
+  DataType,
+  ForeignKey,
+  BelongsTo,
+  HasMany,
+  HasOne,
+} from 'sequelize-typescript';
+import { PositionName } from './positionsName.model';
+import { Scoupe } from './scoupes.model';
 
-interface DepartmentCreationInterface
-{
-    DepartmentName:string;
+interface DepartmentCreationInterface {
+  DepartmentName: string;
 }
 
-@Table({tableName: 'Departments'})
-export class Department extends Model<Department, DepartmentCreationInterface>
-{
-    @Column({type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true})
-    ID: Number;
+@Table({ tableName: 'Departments' })
+export class Department extends Model<Department, DepartmentCreationInterface> {
+  @Column({
+    type: DataType.INTEGER,
+    unique: true,
+    autoIncrement: true,
+    primaryKey: true,
+  })
+  ID: number;
 
-    @Column({type: DataType.TEXT, allowNull: false})
-    DepartmentName: string;
+  @Column({ type: DataType.TEXT, allowNull: false })
+  DepartmentName: string;
 
-    @ForeignKey(()=>Scoupe)
-    @Column({type: DataType.INTEGER, allowNull: false})
-    ScoupeID: number;
+  @ForeignKey(() => Scoupe)
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  ScoupeID: number;
 
-    @HasMany(()=>PositionName)
-    PositionName:PositionName[];
+  @HasMany(() => PositionName)
+  PositionName: PositionName[];
 
-    @BelongsTo(()=>Scoupe)
-    Scoupe:Scoupe;
+  @BelongsTo(() => Scoupe)
+  Scoupe: Scoupe;
 }

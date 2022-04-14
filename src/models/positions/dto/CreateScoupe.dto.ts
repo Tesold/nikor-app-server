@@ -1,3 +1,3 @@
-export class CreateScoupeDto{
-    readonly Name: string;
+export class CreateScoupeDto {
+  readonly Name: string;
 }
