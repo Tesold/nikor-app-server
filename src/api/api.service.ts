@@ -6,14 +6,14 @@ import { Cache } from 'cache-manager';
 export class ApiService {
   constructor(private userService: UsersService, @Inject(CACHE_MANAGER) private cacheManager: Cache,) {}
 
-  async getEmployeers(Nickname: string, ScoupeID?: number) {
+  async getEmployeers(Nickname: string, ScoupeID: any, DepartmentID:any) {
     
     let users:any;
 
-    if(ScoupeID)
-    users = await this.userService.getAllusersExcept(Nickname, ScoupeID);
-    else
-    users = await this.userService.getAllusersExcept(Nickname);
+    console.log(ScoupeID);
+    console.log(DepartmentID);
+    
+    users = await this.userService.getAllusersExcept(Nickname, ScoupeID, DepartmentID);
 
     return users;
   }

@@ -103,21 +103,33 @@ export class UsersService {
     return await this.userRepository.findAll({ include: { all: true } });
   }
 
-  async getAllusersExcept(Nickname: string, ScoupeID?:number) {
+  async getAllusersExcept(Nickname: string, ScoupeID?:number, DepartmentID?:number) {
 
-    if(ScoupeID>0)
-    return await this.userRepository.findAll({
-      where: {
-        Nickname: {
-          [Op.ne]: Nickname,
+    if(ScoupeID)
+      return await this.userRepository.findAll({
+        where: {
+          Nickname: {
+            [Op.ne]: Nickname,
+          },
+          ScoupeID: ScoupeID
         },
-        ScoupeID: ScoupeID,
-      },
-      attributes: {
-        exclude: ['createdAt', 'updatedAt', 'PassID', 'Timezone', 'Nickname'],
-      },
-      include: [Position, Scoupe]
-    });
+        attributes: {
+          exclude: ['createdAt', 'updatedAt', 'PassID', 'Timezone', 'Nickname'],
+        },
+        include: [Position, Scoupe]
+      });
+
+    if(DepartmentID)
+      return await this.userRepository.findAll({
+        where: {
+          Nickname: {
+            [Op.ne]: Nickname,
+          },
+        },
+        attributes: {
+          exclude: ['createdAt', 'updatedAt', 'PassID', 'Timezone', 'Nickname'],
+        },
+        include: [{model: Position, required: true, include:[{model: PositionName, required:true, where: {DepartmentID}}]}, Scoupe]});
 
     return await this.userRepository.findAll({
       where: {
@@ -151,6 +163,12 @@ export class UsersService {
     if ((await bcrypt.hash(hash, salt)) === password) return true;
 
     return false;
+  }
+
+  async setUserScoupeNull(ID) {
+    this.userRepository.update({ScoupeID: null}, {where:{ID}})
+
+    return true;
   }
 
   async checkPasswordByName(Nickname: string, hash: string) {

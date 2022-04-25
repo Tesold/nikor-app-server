@@ -59,10 +59,18 @@ export class PositionsService {
 
   async getScoupes() {
     try {
-      return await this.scoupeRepository.findAll({ include: [Department] });
+      return await this.scoupeRepository.findAll({ include: [{model: Department, include:[{model: PositionName, include: [Position]}]}] });
     } catch {
       console.log('Не удалось получить структуры');
       throw new HttpException('Не удалось получить структуры', 401);
+    }
+  }
+
+  async getScoupe(ScoupeID: number){
+    try {
+      return await this.scoupeRepository.findOne({where:{ID:ScoupeID}, include: [{model: Department, include:[{model: PositionName, include: [Position]}]}] });
+    } catch {
+      throw new HttpException('Не удалось получить структуру', 401);
     }
   }
 
@@ -193,5 +201,21 @@ export class PositionsService {
 
   async setUserForGeneralPosition(ID: any, UserID: any) {
     await this.generalPositionRepository.update({UserID}, {where:ID});
+  }
+
+  async getFreePositions(ScoupeID:any, ){
+
+    if(ScoupeID)
+    return await this.positionRepository.findAll(
+      {
+        where: {UserID: null},
+        include: [{model: PositionName, required: true, include: [{model: Department, required: true, where:{ScoupeID}}]}]
+      })
+
+      return await this.positionRepository.findAll(
+        {
+          where: {UserID: null},
+          include: [{model: PositionName, include: [{model: Department}]}]
+        })
   }
 }

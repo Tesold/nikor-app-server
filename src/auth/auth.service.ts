@@ -43,7 +43,7 @@ export class AuthService {
       delete payload.PassID;
       delete payload.ScoupeID;
       const crypto = require('crypto');
-      const refreshToken = crypto.randomBytes(512).toString('hex');
+      const refreshToken = crypto.randomBytes(124).toString('hex');
       const accesToken = this.jwtService.sign(payload);
       this.cacheManager.set(user.Nickname, refreshToken, { ttl: 604800 });
       this.cacheManager.set(user.Nickname + 2, accesToken, { ttl: 300 });
@@ -59,7 +59,7 @@ export class AuthService {
       let payload = JSON.parse(JSON.stringify({user}));
       payload=payload.user;
       const crypto = require('crypto');
-      const refreshToken = crypto.randomBytes(512).toString('hex');
+      const refreshToken = crypto.randomBytes(124).toString('hex');
       const accesToken = this.jwtService.sign(payload);
       this.cacheManager.del(user.Nickname);
       this.cacheManager.set(user.Nickname, refreshToken, { ttl: 604800 });

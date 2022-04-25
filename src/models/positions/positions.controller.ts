@@ -141,6 +141,16 @@ export class PositionsController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Post('/get/Scoupe')
+  ScoupeWithAllData(@Request() {user}) {
+    try {
+      return this.positionService.getScoupe(user.ScoupeID);
+    } catch {
+      return new HttpException('Не удалось получить структуру!', 500);
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Post('/get/allpositions')
   getAllPositions() {
     try {
@@ -182,6 +192,13 @@ export class PositionsController {
       console.log(body);
 
       return {user, body};
+    }
+
+    @Roles({ addPositions: true })
+    @UseGuards(JwtAuthGuard)
+    @Post('/get/freepositions')
+    getFreePositions(@Request() {user}) {
+      return this.positionService.getFreePositions(user.ScoupeID);
     }
     
 }
