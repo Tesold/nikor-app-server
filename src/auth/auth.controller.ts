@@ -6,15 +6,11 @@ import {
   UseGuards,
   Get,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateUserDto } from 'src/models/users/dto/create-user.dto';
-import { User } from 'src/models/users/users.model';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwtAuth.guard';
 import { LocalAuthGuard } from './localAuth.guard';
 import { Roles } from './roles.decorator';
-import { RolesGuard } from './roles.guard';
 import * as bcrypt from 'bcrypt';
 
 @ApiTags('Авторизация')
@@ -25,7 +21,6 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   async Login(@Request() req) {
-    console.log('validate');
     return this.authService.Login(req.user);
   }
 

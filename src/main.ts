@@ -1,6 +1,5 @@
 import { ValidationPipe } from 'src/pipes/validation.pipe';
 import { NestFactory } from '@nestjs/core';
-import { Console } from 'console';
 import { AppModule } from './app.module';
 
 async function start() {
@@ -10,7 +9,7 @@ async function start() {
   app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(PORT, () =>
-    console.log(`Server started on port ${PORT}...`),
+    console.log(`Server started on port ${PORT}...`)
   );
 }
 

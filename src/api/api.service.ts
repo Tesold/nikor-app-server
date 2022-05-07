@@ -9,9 +9,6 @@ export class ApiService {
   async getEmployeers(Nickname: string, ScoupeID: any, DepartmentID:any) {
     
     let users:any;
-
-    console.log(ScoupeID);
-    console.log(DepartmentID);
     
     users = await this.userService.getAllusersExcept(Nickname, ScoupeID, DepartmentID);
 

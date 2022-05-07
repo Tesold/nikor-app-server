@@ -20,16 +20,12 @@ import {
     
             const req = context.switchToHttp().getRequest();
             const header = req.headers.authorization;
-            console.log(header);
             const email = header.split(' ')[1];
             const key = header.split(' ')[2];
 
             const key2=await this.cacheManager.get("Email:"+email)
 
-            console.log(key2);
-
             if (key === key2) {
-              console.log("Код верен!")
                 return true;
             }
 

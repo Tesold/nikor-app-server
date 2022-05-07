@@ -14,7 +14,6 @@ import { Position } from '../positions/positions.model';
 import { PositionName } from '../positions/positionsName.model';
 import { Department } from '../positions/department.model';
 import { Scoupe } from '../positions/scoupes.model';
-import { use } from 'passport';
 
 @Injectable()
 export class UsersService {
@@ -46,7 +45,7 @@ export class UsersService {
 
     try{
       
-      console.log(dto);
+      (dto);
     
       const user = await this.userRepository.create(dto);
         
@@ -54,8 +53,6 @@ export class UsersService {
           dto.PasswordHash,
           dto.Salt,
         );
-
-        console.log(password);
 
         await user.$set('Password', password);
         return user;
@@ -103,7 +100,19 @@ export class UsersService {
     return await this.userRepository.findAll({ include: { all: true } });
   }
 
-  async getAllusersExcept(Nickname: string, ScoupeID?:number, DepartmentID?:number) {
+  async getAllusersExcept(Nickname: string, ScoupeID?:number, Permission?:string, DepartmentID?:number) {
+
+    if(DepartmentID)
+    return await this.userRepository.findAll({
+      where: {
+        Nickname: {
+          [Op.ne]: Nickname,
+        },
+      },
+      attributes: {
+        exclude: ['createdAt', 'updatedAt', 'PassID', 'Timezone', 'Nickname'],
+      },
+      include: [{model: Position, required: true, include:[{model: PositionName, required:true, where: {DepartmentID}}]}, Scoupe]});
 
     if(ScoupeID)
       return await this.userRepository.findAll({
@@ -116,21 +125,10 @@ export class UsersService {
         attributes: {
           exclude: ['createdAt', 'updatedAt', 'PassID', 'Timezone', 'Nickname'],
         },
-        include: [Position, Scoupe]
+        include: [{model:Position, include:[{model: PositionName, include:[{model: Department}]}]}, Scoupe]
       });
-
-    if(DepartmentID)
-      return await this.userRepository.findAll({
-        where: {
-          Nickname: {
-            [Op.ne]: Nickname,
-          },
-        },
-        attributes: {
-          exclude: ['createdAt', 'updatedAt', 'PassID', 'Timezone', 'Nickname'],
-        },
-        include: [{model: Position, required: true, include:[{model: PositionName, required:true, where: {DepartmentID}}]}, Scoupe]});
-
+    
+    if(Permission==='ADMIN')
     return await this.userRepository.findAll({
       where: {
         Nickname: {
@@ -140,13 +138,12 @@ export class UsersService {
       attributes: {
         exclude: ['createdAt', 'updatedAt', 'PassID', 'Timezone', 'Nickname'],
       },
-      include: [Position, Scoupe]
+      include: [{model:Position, include:[{model: PositionName, include:[{model: Department}]}]}, Scoupe]
     });
   }
 
   async createUserPassword(pass: string, salt: string) {
     //try{
-    console.log('bcrypt');
     const hash = bcrypt.hashSync(pass, salt);
     const passDto: CreatePasswordDto = { PassHash: hash, Salt: salt };
     const password = await this.passwordRepository.create(passDto);

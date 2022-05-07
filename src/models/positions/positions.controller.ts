@@ -80,10 +80,11 @@ export class PositionsController {
   }
 
   @Roles({ addPosition: true })
+  @UseGuards(JwtAuthGuard)
   @Post('/create/position')
-  createPosition(@Body() positionDto: CreatePositionDto) {
+  createPosition(@Request() {user}, @Body() positionDto: CreatePositionDto) {
     try {
-      return this.positionService.addPosition(positionDto);
+      return this.positionService.addPosition(positionDto, user.ScoupeID, user.Permission.Name);
     } catch {
       return new HttpException('Не удалоь создать должность!', 500);
     }
@@ -112,7 +113,6 @@ export class PositionsController {
   @UseGuards(JwtAuthGuard)
   @Post('/get/positionnames')
   getPositionNames(@Body() { ID }) {
-    console.log(ID);
     try {
       return this.positionService.getPositionNames(ID);
     } catch {
@@ -165,7 +165,8 @@ export class PositionsController {
   @Post('/update/setUserForPosition')
   setUserForPosition(@Request() {user, body}) {
     try {
-      return this.positionService.setUserForPosition(body.UserID, body.PositionID, user.Scoupe?.ID, user.Permission?.Name);
+      console.log(body)
+      return this.positionService.setUserForPosition(body.EmployeeID, body.PositionID, user.Scoupe?.ID, user.Permission?.Name);
     } catch {
       return new HttpException('Не удалоь создать должность!', 500);
     }
@@ -197,8 +198,9 @@ export class PositionsController {
     @Roles({ addPositions: true })
     @UseGuards(JwtAuthGuard)
     @Post('/get/freepositions')
-    getFreePositions(@Request() {user}) {
-      return this.positionService.getFreePositions(user.ScoupeID);
+    getFreePositions(@Request() {user, body}) {
+      console.log(body)
+      return this.positionService.getFreePositions(user.ScoupeID, body.DepartmentID, user.Permission.Name);
     }
     
 }

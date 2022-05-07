@@ -12,7 +12,7 @@ export class ApiController {
   @UseGuards(JwtAuthGuard)
   @Post('get/employees')
   async Employeers(@Request() {user, body}) {
-    return this.usersService.getAllusersExcept(user.Nickname, user.ScoupeID, body.DepartmentID);
+    return this.usersService.getAllusersExcept(user.Nickname, user.ScoupeID, user.Permission.Name, body.DepartmentID);
   }
 
   @Roles({addUsers: true})

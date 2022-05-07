@@ -32,6 +32,10 @@ export class PositionName extends Model<
   @Column({ type: DataType.TEXT, allowNull: false })
   PositionName: string;
 
+  @ForeignKey(() => PositionName)
+  @Column({ type: DataType.INTEGER, allowNull: true })
+  ObeyToID: number;
+
   @ForeignKey(() => Department)
   @Column({ type: DataType.INTEGER, allowNull: false })
   DepartmentID: number;
@@ -41,4 +45,10 @@ export class PositionName extends Model<
 
   @HasMany(() => Position)
   PositionID: Position;
+
+  @HasMany(() => PositionName)
+  ManageTo: PositionName;
+
+  @BelongsTo(()=>PositionName)
+  ObeyTo: PositionName;
 }

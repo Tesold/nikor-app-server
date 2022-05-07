@@ -49,8 +49,20 @@ export class PositionsService {
     await this.positionNameRepository.create(dto);
   }
 
-  async addPosition(dto: CreatePositionDto) {
-    await this.positionRepository.create(dto);
+  async addPosition(dto: CreatePositionDto, ScoupeID: number, Permission: string) {
+
+    const pos = await this.positionNameRepository.findOne({
+      where: {ID: dto.PositionNameID},
+       include: [
+         {model: Department, 
+          required: true, 
+          include:[
+            {model: Scoupe, 
+              required: true, 
+              where: {ID: ScoupeID}}]}]});
+
+    if(pos||Permission==='ADMIN')
+    return await this.positionRepository.create(dto);
   }
 
   async addGeneralPosition(dto: CreateGeneralPositionDto) {
@@ -117,7 +129,6 @@ export class PositionsService {
 
   async getPositionNames(ID: number) {
     try {
-      console.log('ID=' + ID);
       return await this.positionNameRepository.findAll({
         where: { DepartmentID: ID },
       });
@@ -148,7 +159,6 @@ export class PositionsService {
 
   async getPositionByPositionNameID(ID: number) {
     try {
-      console.log('ID=' + ID);
       return await this.positionRepository.findAll({
         where: { PositionNameID: ID },
       });
@@ -190,8 +200,9 @@ export class PositionsService {
 
     if(((await this.getPositionByID(PositionID)).PositionName.Department.Scoupe.ID === ScoupeID 
     && user.Position.PositionName.Department.Scoupe.ID === ScoupeID )
-    || Permission.Name==='Admin')
+    || Permission==='ADMIN')
     {
+      await this.positionRepository.update({UserID:null}, {where: {ID:user.Position.ID}});
       await this.positionRepository.update({UserID}, {where: {ID:PositionID}});
       return HttpCode(201);
     }
@@ -203,18 +214,26 @@ export class PositionsService {
     await this.generalPositionRepository.update({UserID}, {where:ID});
   }
 
-  async getFreePositions(ScoupeID:any, ){
+  async getFreePositions(ScoupeID:any, DepartmentID: number, Permission:any){
+
+    if(DepartmentID){
+    const res = await this.positionRepository.findAll(
+      {
+        include: [{model: PositionName, required: true, include: [{model: Department, required: true, where:{ID: DepartmentID}}]}]
+      })
+
+      return res;
+    }
 
     if(ScoupeID)
     return await this.positionRepository.findAll(
       {
-        where: {UserID: null},
         include: [{model: PositionName, required: true, include: [{model: Department, required: true, where:{ScoupeID}}]}]
       })
-
+      
+      if(Permission=='Admin')
       return await this.positionRepository.findAll(
         {
-          where: {UserID: null},
           include: [{model: PositionName, include: [{model: Department}]}]
         })
   }

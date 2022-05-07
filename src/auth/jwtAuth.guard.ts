@@ -30,7 +30,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
         [context.getHandler(), context.getClass()],
       );
 
-      console.log("JWTGuard");
       if (!requiredRole) {
         let req = context.switchToHttp().getRequest();
         const body = req.body;
