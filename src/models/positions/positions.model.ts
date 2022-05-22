@@ -5,11 +5,9 @@ import {
   DataType,
   ForeignKey,
   BelongsTo,
-  HasMany,
 } from 'sequelize-typescript';
 import { PositionName } from 'src/models/positions/positionsName.model';
 import { User } from '../users/users.model';
-import { Subordinate } from './subordinates.model';
 
 @Table({ tableName: 'Positions' })
 export class Position extends Model<Position> {

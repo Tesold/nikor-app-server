@@ -7,7 +7,6 @@ import {
   ForeignKey,
   BelongsTo,
   HasMany,
-  BelongsToMany,
 } from 'sequelize-typescript';
 import { Permission } from 'src/models/permissions/permissions.model';
 import { Position } from 'src/models/positions/positions.model';

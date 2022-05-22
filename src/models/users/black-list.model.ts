@@ -2,11 +2,8 @@ import {
   Model,
   Column,
   DataType,
-  HasMany,
   Table,
   ForeignKey,
-  HasOne,
-  BelongsToMany,
   BelongsTo,
 } from 'sequelize-typescript';
 import { User } from 'src/models/users/users.model';

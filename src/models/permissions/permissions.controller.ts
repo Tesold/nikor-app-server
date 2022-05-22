@@ -1,5 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { CreatePermissionDto } from './dto/create-permission.dto';
+import { Controller } from '@nestjs/common';
 import { PermissionsService } from './permissions.service';
 
 @Controller('permissions')

@@ -1,4 +1,4 @@
-import { CacheModule, CACHE_MANAGER, forwardRef, Module } from '@nestjs/common';
+import { CacheModule, forwardRef, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthModuleOptions, PassportModule } from '@nestjs/passport';
 import { ApiModule } from 'src/api/api.module';

@@ -1,13 +1,11 @@
 import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { PermissionsService } from 'src/models/permissions/permissions.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './users.model';
 import * as bcrypt from 'bcrypt';
 import { Password } from './pass.model';
 import { CreatePasswordDto } from './dto/create-password.dto';
 import { Permission } from 'src/models/permissions/permissions.model';
-import { BadPassword } from 'src/errors/errors';
 import { Op } from 'sequelize';
 import { GeneralPosition } from '../positions/generalpositions.model';
 import { Position } from '../positions/positions.model';

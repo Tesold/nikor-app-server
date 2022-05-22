@@ -6,8 +6,7 @@ import {
     ForeignKey,
     BelongsTo,
   } from 'sequelize-typescript';
-  import { User } from '../users/users.model';
-import { Scoupe } from './scoupes.model';
+import { User } from '../users/users.model';
   
   @Table({ tableName: 'GeneralPositions' })
   export class GeneralPosition extends Model<GeneralPosition> {

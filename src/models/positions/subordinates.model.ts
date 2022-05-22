@@ -4,7 +4,6 @@ import {
   Column,
   DataType,
   ForeignKey,
-  BelongsTo,
 } from 'sequelize-typescript';
 import { Position } from './positions.model';
 

@@ -1,7 +1,6 @@
 import { Model, Table, Column, DataType, HasMany } from 'sequelize-typescript';
 import { User } from '../users/users.model';
 import { Department } from './department.model';
-import { GeneralPosition } from './generalpositions.model';
 import { ScoupeGeneralPosition } from './scoupegeneralpositions.model';
 
 interface ScoupeCreationInterface {
