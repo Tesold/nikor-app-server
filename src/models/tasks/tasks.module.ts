@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { PermissionsModule } from '../permissions/permissions.module';
 import { TasksController } from './tasks.controller';
 import { Task } from './tasks.model';
 import { TasksService } from './tasks.service';
@@ -17,6 +18,7 @@ import { TaskToUser } from './tasksToUsers.model';
       TaskToDepartment,
       TaskToPosition,
     ]),
+    forwardRef(() => PermissionsModule),
   ],
 })
 export class TasksModule {}

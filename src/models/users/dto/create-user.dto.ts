@@ -1,4 +1,5 @@
-import { IsString, IsEmail, IsInt, Length } from 'class-validator';
+import { IsString, IsEmail, IsInt, Length, Validate } from 'class-validator';
+import { CustomNickname } from '../validator';
 
 export class CreateUserDto {
   @IsEmail({}, { message: 'Некорректный e-mail.' })
@@ -19,6 +20,9 @@ export class CreateUserDto {
 
   @Length(2, 16)
   @IsString({ message: 'Поле должно быть строкой.' })
+  @Validate(CustomNickname, {
+    message: 'Nickname cant include @!',
+  })
   readonly Nickname: string;
 
   @Length(10, 10)
@@ -32,9 +36,11 @@ export class CreateUserDto {
   readonly Timezone: number;
   @IsString({ message: 'Не верный permission.' })
   @Length(2, 16)
-  readonly Permission: string;
+  readonly PermissionID: 5;
 
   @Length(2, 1024)
   @IsString({ message: 'Поле должно быть строкой.' })
   readonly Salt: string;
+
+  readonly ScoupeID = 5;
 }

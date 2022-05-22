@@ -15,6 +15,7 @@ import { Task } from 'src/models/tasks/tasks.model';
 import { TaskToDepartment } from 'src/models/tasks/tasksToDepartments.model';
 import { TaskToUser } from 'src/models/tasks/tasksToUsers.model';
 import { GeneralPosition } from '../positions/generalpositions.model';
+import { ScoupeGeneralPosition } from '../positions/scoupegeneralpositions.model';
 import { Scoupe } from '../positions/scoupes.model';
 import { Password } from './pass.model';
 
@@ -93,4 +94,7 @@ export class User extends Model<User, UserCreationInterface> {
 
   @HasOne(() => GeneralPosition)
   GeneralPosition: GeneralPosition;
+
+  @HasOne(() => ScoupeGeneralPosition)
+  ScoupeGeneralPosition: ScoupeGeneralPosition;
 }

@@ -9,8 +9,8 @@ import {
   import { User } from '../users/users.model';
 import { Scoupe } from './scoupes.model';
   
-  @Table({ tableName: 'GeneralPositions' })
-  export class GeneralPosition extends Model<GeneralPosition> {
+  @Table({ tableName: 'ScoupeGeneralPositions' })
+  export class ScoupeGeneralPosition extends Model<ScoupeGeneralPosition> {
     @Column({
       type: DataType.INTEGER,
       unique: true,
@@ -19,13 +19,20 @@ import { Scoupe } from './scoupes.model';
     })
     ID: number;
   
-    @Column({ type: DataType.TEXT, allowNull: false })
-    GeneralPositionName: string;
+    @Column({ type: DataType.TEXT, allowNull: false, unique: true})
+    ScoupeGeneralPositionName: string;
   
     @ForeignKey(() => User)
     @Column({ type: DataType.INTEGER, allowNull: true })
     UserID: number;
     @BelongsTo(() => User)
     User: User;
+
+    @ForeignKey(()=> Scoupe)
+    @Column({type: DataType.INTEGER, allowNull: false})
+    ScoupeID: number;
+
+    @BelongsTo(()=>Scoupe)
+    Scoupe: Scoupe;
   }
   

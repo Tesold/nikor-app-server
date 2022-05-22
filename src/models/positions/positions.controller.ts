@@ -13,32 +13,33 @@ import { CreateGeneralPositionDto } from './dto/CreateGeneralPosition.dto';
 import { CreatePositionDto } from './dto/CreatePosition.dto';
 import { CreatePositionNameDto } from './dto/CreatePositionName.dto';
 import { CreateScoupeDto } from './dto/CreateScoupe.dto';
+import { CreateScoupeGeneralPositionDto } from './dto/CreateScoupeGeneralPosition.dto';
 import { PositionsService } from './positions.service';
 
 @Controller('positions')
 export class PositionsController {
   constructor(private positionService: PositionsService) {}
 
-  @Roles({ addPositions: true })
+  @Roles('managePositionNames')
   @Post('/create/positionname')
   createPositionName(@Body() posDto: CreatePositionNameDto) {
     return this.positionService.addPositionName(posDto);
   }
 
-  @Roles({ addPositions: true })
+  @Roles('managePositionNames')
   @Post('/delete/positionname')
   deletePositionName(@Body() { ID }) {
     return this.positionService.deletePositionName(ID);
   }
 
-  @Roles({ addPositions: true })
+  @Roles('manageScoupes')
   @Post('/create/Scoupe')
   createScoupe(@Body() scoupeDto: CreateScoupeDto) {
     return this.positionService.addScoupe(scoupeDto);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('/get/Scoupe')
+  @Post('/get/Scoupes')
   getScoupes() {
     return this.positionService.getScoupes();
   }
@@ -49,7 +50,7 @@ export class PositionsController {
     return this.positionService.getDepartments();
   }
 
-  @Roles({ addDepartment: true })
+  @Roles('manageDepartments')
   @Post('/create/department')
   createDepartment(@Body() departmentDto: CreateDepartmentDto) {
     try {
@@ -59,7 +60,7 @@ export class PositionsController {
     }
   }
 
-  @Roles({ addDepartment: true })
+  @Roles('manageDepartments')
   @Post('/delete/department')
   deleteDepartment(@Body() { ID }) {
     try {
@@ -69,7 +70,7 @@ export class PositionsController {
     }
   }
 
-  @Roles({ addPositions: true })
+  @Roles('manageScoupes')
   @Post('/delete/scoupe')
   deleteScoupe(@Body() { ID }) {
     try {
@@ -79,7 +80,7 @@ export class PositionsController {
     }
   }
 
-  @Roles({ addPosition: true })
+  @Roles('managePositions')
   @UseGuards(JwtAuthGuard)
   @Post('/create/position')
   createPosition(@Request() {user}, @Body() positionDto: CreatePositionDto) {
@@ -90,7 +91,7 @@ export class PositionsController {
     }
   }
 
-  @Roles({ addPosition: true })
+  @Roles('managePositions')
   @Post('/delete/position')
   deletePosition(@Body() { ID }) {
     try {
@@ -160,7 +161,7 @@ export class PositionsController {
     }
   }
 
-  @Roles({ addPositions: true })
+  @Roles('managePositions')
   @UseGuards(JwtAuthGuard)
   @Post('/update/setUserForPosition')
   setUserForPosition(@Request() {user, body}) {
@@ -172,8 +173,8 @@ export class PositionsController {
     }
   }
 
-    //@UseGuards(JwtAuthGuard)
-    @Roles({ addGeneralPosition: true })
+    @UseGuards(JwtAuthGuard)
+    @Roles('manageGeneralPositions')
     @Post('/create/generalposition')
     createGeneralPosition(@Body() generalPositionDto:CreateGeneralPositionDto) {
       try {
@@ -183,8 +184,31 @@ export class PositionsController {
       }
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Roles('manageGeneralPositions')
+    @Post('/create/scoupegeneralposition')
+    createScoupeGeneralPosition(@Body() scoupeGeneralPositionDto:CreateScoupeGeneralPositionDto) {
+      try {
+        return this.positionService.addScoupeGeneralPosition(scoupeGeneralPositionDto);
+      } catch {
+        return new HttpException('Не удалоь создать должность!', 500);
+      }
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Roles('manageGeneralPositions')
+    @Post('/get/scoupeswithgeneralposition')
+    getScoupesWithGeneralPosition() {
+      try {
+        return this.positionService.getScoupesWithGeneralPosition();
+      } 
+      catch {
+        return new HttpException('Не удалоь получить!', 500);
+      }
+    }
+
     
-    @Roles({ addPositions: true })
+    @Roles('manageGeneralPositions')
     @UseGuards(JwtAuthGuard)
     @Post('/check')
     CheckReq(@Request() {user, body}) {
@@ -195,12 +219,27 @@ export class PositionsController {
       return {user, body};
     }
 
-    @Roles({ addPositions: true })
     @UseGuards(JwtAuthGuard)
     @Post('/get/freepositions')
     getFreePositions(@Request() {user, body}) {
       console.log(body)
       return this.positionService.getFreePositions(user.ScoupeID, body.DepartmentID, user.Permission.Name);
+    }
+
+    @Roles('managment')
+    @UseGuards(JwtAuthGuard)
+    @Post('/set/ManagerForPositionName')
+    setManagerForPositionName(@Request() {body, user})
+    {
+      return this.positionService.setManagerForPositionName(body.ID, body.ObeyToID);
+    }
+
+    @Roles('manageGeneralPositions')
+    @UseGuards(JwtAuthGuard)
+    @Post('/set/userforscoupegeneralposition')
+    setUserForScoupeGeneralPosition(@Request() {body, user})
+    {
+      return this.positionService.setUserForScoupeGeneralPosition(body.UserID, body.ScoupeID);
     }
     
 }

@@ -1,4 +1,5 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { CacheModule, forwardRef, Module } from '@nestjs/common';
+import { AuthModuleOptions } from '@nestjs/passport';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ApiModule } from 'src/api/api.module';
 import { AuthModule } from 'src/auth/auth.module';
@@ -12,13 +13,13 @@ import { UsersService } from './users.service';
 
 @Module({
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [UsersService, AuthModuleOptions],
   imports: [
     SequelizeModule.forFeature([User, Password, BlackList]),
-    PermissionsModule,
-    Permission,
     forwardRef(() => AuthModule),
     forwardRef(() => ApiModule),
+    forwardRef(() => PermissionsModule),
+    CacheModule.register(),
   ],
   exports: [UsersService],
 })

@@ -12,11 +12,12 @@ import { JwtAuthGuard } from './jwtAuth.guard';
 import { LocalAuthGuard } from './localAuth.guard';
 import { Roles } from './roles.decorator';
 import * as bcrypt from 'bcrypt';
+import { PermissionsService } from 'src/models/permissions/permissions.service';
 
 @ApiTags('Авторизация')
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private permissionsService: PermissionsService) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('/login')
@@ -24,7 +25,7 @@ export class AuthController {
     return this.authService.Login(req.user);
   }
 
-  @Roles({ getProfile: true })
+  @Roles('getProfile')
   @UseGuards(JwtAuthGuard)
   @Get('/profile')
   async Profile(@Request() req) {

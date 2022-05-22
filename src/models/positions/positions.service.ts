@@ -1,5 +1,6 @@
 import { HttpCode, HttpException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { Op } from 'sequelize';
 import { Scopes } from 'sequelize-typescript';
 import { CreatePermissionDto } from 'src/models/permissions/dto/create-permission.dto';
 import { PermissionsService } from 'src/models/permissions/permissions.service';
@@ -13,11 +14,13 @@ import { CreateGeneralPositionDto } from './dto/CreateGeneralPosition.dto';
 import { CreatePositionDto } from './dto/CreatePosition.dto';
 import { CreatePositionNameDto } from './dto/CreatePositionName.dto';
 import { CreateScoupeDto } from './dto/CreateScoupe.dto';
+import { CreateScoupeGeneralPositionDto } from './dto/CreateScoupeGeneralPosition.dto';
 import { NewDepartment } from './dto/NewDepartment.dto';
 import { NewScoupe } from './dto/NewScoupe.dto';
 import { GeneralPosition } from './generalpositions.model';
 import { Position } from './positions.model';
 import { PositionName } from './positionsName.model';
+import { ScoupeGeneralPosition } from './scoupegeneralpositions.model';
 import { Scoupe } from './scoupes.model';
 
 @Injectable()
@@ -29,6 +32,7 @@ export class PositionsService {
     @InjectModel(Position) private positionRepository: typeof Position,
     @InjectModel(Department) private departmentRepository: typeof Department,
     @InjectModel(GeneralPosition) private generalPositionRepository: typeof GeneralPosition,
+    @InjectModel(ScoupeGeneralPosition) private scoupeGeneralPositionRepository: typeof ScoupeGeneralPosition,
     private usersService: UsersService,
   ) {}
 
@@ -66,12 +70,16 @@ export class PositionsService {
   }
 
   async addGeneralPosition(dto: CreateGeneralPositionDto) {
-    await this.generalPositionRepository.create(dto);
+    return await this.generalPositionRepository.create(dto);
+  }
+
+  async addScoupeGeneralPosition(dto: CreateScoupeGeneralPositionDto) {
+    return await this.scoupeGeneralPositionRepository.create(dto);
   }
 
   async getScoupes() {
     try {
-      return await this.scoupeRepository.findAll({ include: [{model: Department, include:[{model: PositionName, include: [Position]}]}] });
+      return await this.scoupeRepository.findAll({ include: [{model: Department, include:[{model: PositionName, include: [Position, 'ObeyTo']}]}] });
     } catch {
       console.log('Не удалось получить структуры');
       throw new HttpException('Не удалось получить структуры', 401);
@@ -190,7 +198,7 @@ export class PositionsService {
 
   async getScoupesWithAllData() {
     return await this.scoupeRepository.findAll({
-      include: [{ model: Department, include: [PositionName] }],
+      include: [{ model: Department, include: [{model: PositionName, include:['ObeyTo']}] }],
     });
   }
 
@@ -236,5 +244,27 @@ export class PositionsService {
         {
           include: [{model: PositionName, include: [{model: Department}]}]
         })
+  }
+
+  async setManagerForPositionName(ID: number, ObeyToID: number){
+
+    try{
+    if(ID!==ObeyToID)
+    this.positionNameRepository.update({ObeyToID},{where:{ID}})
+    return 201;
+    }
+    catch{
+      throw new HttpException('Не вышло назначить командование!', 403);
+    }
+  }
+
+  async getScoupesWithGeneralPosition() {
+    return (await this.scoupeRepository
+      .findAll({include: [{model: ScoupeGeneralPosition, include:[User]}, 
+                          {model: User, include:[{model: Position}, GeneralPosition, ScoupeGeneralPosition]}]}))
+  }
+
+  async setUserForScoupeGeneralPosition(UserID: number, ID: number){
+    return await this.scoupeGeneralPositionRepository.update({UserID}, {where: {ID}});
   }
 }

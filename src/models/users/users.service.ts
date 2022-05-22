@@ -14,40 +14,22 @@ import { Position } from '../positions/positions.model';
 import { PositionName } from '../positions/positionsName.model';
 import { Department } from '../positions/department.model';
 import { Scoupe } from '../positions/scoupes.model';
+import { ScoupeGeneralPosition } from '../positions/scoupegeneralpositions.model';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User) private userRepository: typeof User,
-    private permissionService: PermissionsService,
     @InjectModel(Password) private passwordRepository: typeof Password,
   ) {}
-
-  /*async createAdmin(dto: CreateUserDto)
-    {
-        if (dto.PasswordHash) {
-            const permission = await this.permissionService.getPermissionByName(dto.Permission);
-            if(permission)
-            {
-                const user = await this.userRepository.create(dto);
-                const password = await this.createUserPassword(dto.PasswordHash, dto.Salt);
-                await user.$set('PermissionID', [permission.ID]);
-                await user.$set('Password', password);
-                return user;
-            }
-            return new BadRequestException();
-        }
-
-        return BadPassword();   
-    }*/
 
   async createUser(dto: CreateUserDto) {
 
     try{
       
-      (dto);
-    
       const user = await this.userRepository.create(dto);
+
+      console.log(user);
         
         const password = await this.createUserPassword(
           dto.PasswordHash,
@@ -138,7 +120,7 @@ export class UsersService {
       attributes: {
         exclude: ['createdAt', 'updatedAt', 'PassID', 'Timezone', 'Nickname'],
       },
-      include: [{model:Position, include:[{model: PositionName, include:[{model: Department}]}]}, Scoupe]
+      include: [GeneralPosition, ScoupeGeneralPosition, {model:Position, include:[{model: PositionName, include:[{model: Department}]}]}, Scoupe]
     });
   }
 

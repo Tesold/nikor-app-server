@@ -46,7 +46,7 @@ export class AuthService {
       const refreshToken = crypto.randomBytes(124).toString('hex');
       const accesToken = this.jwtService.sign(payload);
       this.cacheManager.set(user.Nickname, refreshToken, { ttl: 604800 });
-      this.cacheManager.set(user.Nickname + 2, accesToken, { ttl: 300 });
+      this.cacheManager.set(user.Nickname + '@', accesToken, { ttl: 300 });
       return { access_token: accesToken, refresh_token: refreshToken, payload };
     }
 
@@ -63,8 +63,8 @@ export class AuthService {
       const accesToken = this.jwtService.sign(payload);
       this.cacheManager.del(user.Nickname);
       this.cacheManager.set(user.Nickname, refreshToken, { ttl: 604800 });
-      this.cacheManager.del(user.Nickname + 2);
-      this.cacheManager.set(user.Nickname + 2, accesToken, { ttl: 60 });
+      this.cacheManager.del(user.Nickname + '@');
+      this.cacheManager.set(user.Nickname + '@', accesToken, { ttl: 60 });
       return { access_token: accesToken, refresh_token: refreshToken };
     }
 

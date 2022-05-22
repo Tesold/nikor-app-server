@@ -1,36 +1,35 @@
 import {
   CACHE_MANAGER,
+  CanActivate,
   ExecutionContext,
   Inject,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { AuthGuard } from '@nestjs/passport';
-import { PermissionsService } from 'src/models/permissions/permissions.service';
 import { ROLES_KEY } from './roles.decorator';
 import { Cache } from 'cache-manager';
 import { JwtService } from '@nestjs/jwt';
+import { PermissionsService } from 'src/models/permissions/permissions.service';
 
 @Injectable()
-export class JwtAuthGuard extends AuthGuard('jwt') {
+export class JwtAuthGuard implements CanActivate {
   constructor(
-    private permissionService: PermissionsService,
+    private permissionsService: PermissionsService,
     private reflector: Reflector,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private jwtService: JwtService,
   ) {
-    super();
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    try {
-      const requiredRole = this.reflector.getAllAndOverride<Object>(
+    //try {
+      const requiredRole = this.reflector.getAllAndOverride<string>(
         ROLES_KEY,
         [context.getHandler(), context.getClass()],
       );
-
+        console.log(requiredRole)
       if (!requiredRole) {
+        console.log("нет роли")
         let req = context.switchToHttp().getRequest();
         const body = req.body;
         const header = req.headers.authorization;
@@ -39,9 +38,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
         req.user = user;
         req.body = body;
 
-        if (token === (await this.cacheManager.get(user.Nickname + 2))) {
+        if (token === (await this.cacheManager.get(user.Nickname + '@'))) {
           return true;
-        }
+        }else return false;
       }
 
       let req = context.switchToHttp().getRequest();
@@ -49,24 +48,15 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       const token = header.split(' ')[1];
       const user = this.jwtService.verify(token);
       req.user = user;
+      const pername: string = user.Permission.Name;
+      const Config = await this.permissionsService.getPermissionByName(pername);
+      console.log(Config);
+      console.log(Config[requiredRole]);
+      console.log(Config[requiredRole]===true&&token === (await this.cacheManager.get(user.Nickname + '@')))
+      return Config[requiredRole]===true&&token === (await this.cacheManager.get(user.Nickname + '@'));
 
-      const Config = JSON.parse(JSON.stringify(user.Permission.Config));
-
-      let hasRole: boolean;
-
-      for(let key in requiredRole)
-      for(let key2 in Config)
-      if(requiredRole[key]===Config[key2])
-      hasRole = true;
-
-
-      
-
-      return (
-        token === (await this.cacheManager.get(user.Nickname + 2)) && hasRole
-      );
-    } catch {
-      throw new UnauthorizedException();
-    }
+    //} catch {
+    //  throw new UnauthorizedException();
+    //}
   }
 }

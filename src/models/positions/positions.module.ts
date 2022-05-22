@@ -5,12 +5,14 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { AuthModule } from 'src/auth/auth.module';
 import { jwtConstants } from 'src/auth/constants';
 import { UsersModule } from 'src/models/users/users.module';
+import { PermissionsModule } from '../permissions/permissions.module';
 import { Department } from './department.model';
 import { GeneralPosition } from './generalpositions.model';
 import { PositionsController } from './positions.controller';
 import { Position } from './positions.model';
 import { PositionsService } from './positions.service';
 import { PositionName } from './positionsName.model';
+import { ScoupeGeneralPosition } from './scoupegeneralpositions.model';
 import { Scoupe } from './scoupes.model';
 import { Subordinate } from './subordinates.model';
 
@@ -21,6 +23,7 @@ import { Subordinate } from './subordinates.model';
     CacheModule.register(),
     forwardRef(() => UsersModule),
     forwardRef(() => AuthModule),
+    forwardRef(() => PermissionsModule),
     JwtModule.register({
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '60s' },
@@ -32,7 +35,8 @@ import { Subordinate } from './subordinates.model';
       Position,
       Scoupe,
       Subordinate,
-      GeneralPosition
+      GeneralPosition,
+      ScoupeGeneralPosition
     ]),
   ],
 })

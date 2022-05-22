@@ -23,6 +23,13 @@ import {
             const email = header.split(' ')[1];
             const key = header.split(' ')[2];
 
+            try{
+            req.scoupe=key.split('&&')[1];
+            }
+            catch{
+              req.scoupe=null;
+            }
+
             const key2=await this.cacheManager.get("Email:"+email)
 
             if (key === key2) {

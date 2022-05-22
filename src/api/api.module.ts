@@ -5,24 +5,21 @@ import { AuthModule } from 'src/auth/auth.module';
 import { jwtConstants } from 'src/auth/constants';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { LocalStrategy } from 'src/auth/local.strategy';
+import { PermissionsModule } from 'src/models/permissions/permissions.module';
 import { UsersModule } from 'src/models/users/users.module';
 import { ApiController } from './api.controller';
 import { ApiService } from './api.service';
 
 @Module({
   controllers: [ApiController],
-  providers: [ApiService, AuthModuleOptions],
+  providers: [ApiService, AuthModuleOptions, JwtStrategy],
   exports: [ApiService],
   imports: [
     CacheModule.register(),
     forwardRef(() => UsersModule),
     forwardRef(() => AuthModule),
-    //PermissionsModule,
+    forwardRef(()=>PermissionsModule),
     //PassportModule,
-    JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s' },
-    }),
   ],
 })
 export class ApiModule {}

@@ -1,5 +1,8 @@
 import { Model, Table, Column, DataType, HasMany } from 'sequelize-typescript';
+import { User } from '../users/users.model';
 import { Department } from './department.model';
+import { GeneralPosition } from './generalpositions.model';
+import { ScoupeGeneralPosition } from './scoupegeneralpositions.model';
 
 interface ScoupeCreationInterface {
   ScoupeName: string;
@@ -20,4 +23,10 @@ export class Scoupe extends Model<Scoupe, ScoupeCreationInterface> {
 
   @HasMany(() => Department, { onDelete: 'cascade' })
   DepartmentID: Department[];
+
+  @HasMany(() => ScoupeGeneralPosition, { onDelete: 'cascade' })
+  ScoupeGeneralPosition: ScoupeGeneralPosition[];
+
+  @HasMany(()=>User)
+  User: User[];
 }

@@ -13,7 +13,7 @@ export class RolesGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const requiredRole = this.reflector.getAllAndOverride<Object>(
+    const requiredRole = this.reflector.getAllAndOverride<string>(
       ROLES_KEY,
       [context.getHandler(), context.getClass()],
     );
@@ -27,12 +27,11 @@ export class RolesGuard implements CanActivate {
     const header = req.headers.authorization;
     const token = header.split(' ')[1];
     const user = this.jwtService.verify(token);
-    const Config = JSON.parse(JSON.stringify((await this.permissionService.getPermissionByName(user.Permission.Name)).Config));
+    const Config = JSON.parse(JSON.stringify((await this.permissionService.getPermissionByName(user.Permission.Name))));
 
-    
+    console.log('ROLE: '+true)
 
-
-    return Config.some(element=>element===requiredRole);
+    return Config[requiredRole]===true;
 
   }
 }

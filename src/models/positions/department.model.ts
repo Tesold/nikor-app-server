@@ -6,7 +6,6 @@ import {
   ForeignKey,
   BelongsTo,
   HasMany,
-  HasOne,
 } from 'sequelize-typescript';
 import { PositionName } from './positionsName.model';
 import { Scoupe } from './scoupes.model';

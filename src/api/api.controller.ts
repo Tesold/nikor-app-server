@@ -15,7 +15,7 @@ export class ApiController {
     return this.usersService.getAllusersExcept(user.Nickname, user.ScoupeID, user.Permission.Name, body.DepartmentID);
   }
 
-  @Roles({addUsers: true})
+  @Roles('editUsers')
   @UseGuards(JwtAuthGuard)
   @Post('delete/employeescoupe')
   async setEmpleyeeScoupeNull(@Request() req) {
@@ -24,24 +24,24 @@ export class ApiController {
 
   @UseGuards(LocalRegGuard)
   @Post('create/user')
-  async Registrate(@Body() {user}) {
-    return await this.usersService.createUser(user);
+  async Registrate(@Body() {user}, @Request() req) {
+    return await this.usersService.createUser({...user, ScoupeID:req.scoupe});
   }
 
-  @Roles({ addUsers: true })
+  @Roles('editUsers')
   @UseGuards(JwtAuthGuard)
   @Post('set/employeescoupe')
   async setScoupeForUser(@Request() {body}) {
     this.usersService.setScoupeForUser(body.ScoupeID, body.UserID);
   }
 
-  @Roles({ addUsers: true })
+  @Roles('addUsers')
   @UseGuards(JwtAuthGuard)
   @Post('get/code')
-  async getCode(@Body() {Email}) {
+  async getCode(@Body() {Email}, @Request() {user}) {
     if(!Email)
     return new HttpException("Пустой Email!", 500);
 
-    return this.apiService.createRegCode(Email);
+    return this.apiService.createRegCode(Email, user?.ScoupeID);
   }
 }

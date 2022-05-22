@@ -21,6 +21,7 @@ import { AuthModule } from './auth/auth.module';
 import { BlackList } from './models/users/black-list.model';
 import { ApiModule } from './api/api.module';
 import { GeneralPosition } from './models/positions/generalpositions.model';
+import { ScoupeGeneralPosition } from './models/positions/scoupegeneralpositions.model';
 
 @Module({
   controllers: [],
@@ -51,7 +52,8 @@ import { GeneralPosition } from './models/positions/generalpositions.model';
         Permission,
         TaskToPosition,
         Subordinate,
-        GeneralPosition
+        GeneralPosition,
+        ScoupeGeneralPosition
       ],
       autoLoadModels: true,
       synchronize: true,
@@ -64,5 +66,6 @@ import { GeneralPosition } from './models/positions/generalpositions.model';
     AuthModule,
     ApiModule,
   ],
+  exports: [CacheModule]
 })
 export class AppModule {}

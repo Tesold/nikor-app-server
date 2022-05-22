@@ -15,12 +15,18 @@ export class ApiService {
     return users;
   }
 
-  async createRegCode(Email:any) {
+  async createRegCode(Email:any, ScoupeID?:any) {
     const crypto = require('crypto');
-    const key = crypto.randomBytes(16).toString('hex');
+    let key: string;
+    console.log("getcode")
+    if(ScoupeID)
+    key = crypto.randomBytes(16).toString('hex') + '&&' + JSON.stringify({ScoupeID});
+    else
+    key = crypto.randomBytes(16).toString('hex');
+
     this.cacheManager.set("Email:"+Email, key, { ttl: 86400 });
 
-    return key;
+    return {Code: key};
   }
 
 
